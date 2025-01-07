@@ -45,7 +45,7 @@
         "icon": { "id": "server", "color": "terminal.ansiGreen" },
         "runOptions": { "instanceLimit": 1 },
         "type": "shell",
-        "command": ["cargo watch -x run"],
+        "command": ["lsof -ti :8080 | xargs kill -9 && cargo watch -x run"],
         "options": { "cwd": "backend" },
         "presentation": {
           "focus": true,

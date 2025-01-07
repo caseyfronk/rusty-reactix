@@ -1,35 +1,30 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { lazy, Suspense } from "react";
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+import { Routes, Route } from "react-router-dom";
+import { Layout } from "./Layout";
+import Dashboard from "./routes/Dashboard";
+import About from "./routes/About";
+import { Spinner } from "./components/misc/Spinner";
+const Charts = lazy(() => import("./routes/Charts"));
 
-function App() {
-  const [count, setCount] = useState(0)
-
+export default function App() {
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    <ThemeProvider defaultTheme="dark" storageKey="vite-ui-theme">
+      <Routes>
+        <Route path="/" element={<Layout />}>
+          <Route index element={<Dashboard />} />
+          <Route path="about" element={<About />} />
+          <Route
+            path="charts"
+            element={
+              <Suspense fallback={<Spinner />}>
+                <Charts />
+              </Suspense>
+            }
+          />
+          <Route path="*" element={<div>No Match</div>} />
+        </Route>
+      </Routes>
+    </ThemeProvider>
+  );
 }
-
-export default App

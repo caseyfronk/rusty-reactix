@@ -1,5 +1,5 @@
 use actix_files;
-use actix_web::{get, post, web, App, HttpResponse, HttpServer, Responder};
+use actix_web::{get, post, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
 use std::env;
 
@@ -19,7 +19,6 @@ async fn main() -> std::io::Result<()> {
         App::new()
             .service(hello)
             .service(echo)
-            .route("/hey", web::get().to(manual_hello))
             .service(actix_files::Files::new("/", "./static").index_file("index.html"))
     })
     .bind((host, port))?
@@ -27,16 +26,12 @@ async fn main() -> std::io::Result<()> {
     .await
 }
 
-#[get("/health")]
+#[get("/api/health")]
 async fn hello() -> impl Responder {
-    HttpResponse::Ok().body("Health check OK")
+    HttpResponse::Ok().json("Health check OK")
 }
 
-#[post("/echo")]
+#[post("/api/echo")]
 async fn echo(req_body: String) -> impl Responder {
     HttpResponse::Ok().body(req_body)
-}
-
-async fn manual_hello() -> impl Responder {
-    HttpResponse::Ok().body("Hey there!")
 }
