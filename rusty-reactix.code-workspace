@@ -1,0 +1,101 @@
+{
+  "folders": [{ "path": "." }, { "path": "backend" }, { "path": "frontend" }],
+
+  "settings": {
+    "editor.formatOnSave": true,
+    "[css]": {
+      "editor.defaultFormatter": "aeschli.vscode-css-formatter"
+    },
+    "[rust]": {
+      "editor.defaultFormatter": "rust-lang.rust-analyzer"
+    },
+    "rust-analyzer.diagnostics.enable": true,
+    "actionButtons": {
+      "defaultColor": "limegreen",
+      "reloadButton": "♻️",
+      "commands": [
+        {
+          "name": "$(run) Start Frontend",
+          "useVsCodeApi": true,
+          "command": "workbench.action.tasks.runTask",
+          "args": ["Frontend"]
+        },
+        {
+          "name": "$(run) Start Backend",
+          "useVsCodeApi": true,
+          "command": "workbench.action.tasks.runTask",
+          "args": ["Backend"]
+        },
+        {
+          "name": "$(wrench) Build Frontend",
+          "color": "cyan",
+          "useVsCodeApi": true,
+          "command": "workbench.action.tasks.runTask",
+          "args": ["Build Frontend"]
+        }
+      ]
+    }
+  },
+
+  "tasks": {
+    "version": "2.0.0",
+    "tasks": [
+      {
+        "label": "Backend",
+        "icon": { "id": "server", "color": "terminal.ansiGreen" },
+        "runOptions": { "instanceLimit": 1 },
+        "type": "shell",
+        "command": ["cargo watch -x run"],
+        "options": { "cwd": "backend" },
+        "presentation": {
+          "focus": true,
+          "panel": "dedicated"
+        }
+      },
+      {
+        "label": "Frontend",
+        "icon": { "id": "browser", "color": "terminal.ansiGreen" },
+        "runOptions": { "instanceLimit": 1 },
+        "type": "shell",
+        "command": "npm run dev",
+        "options": { "cwd": "frontend" },
+        "presentation": {
+          "panel": "dedicated"
+        }
+      },
+      {
+        "label": "Build Frontend",
+        "icon": { "id": "wrench", "color": "terminal.ansiBlue" },
+        "runOptions": { "instanceLimit": 1 },
+        "type": "shell",
+        "command": "npm run build",
+        "options": { "cwd": "frontend" },
+        "presentation": {
+          "focus": true,
+          "panel": "dedicated",
+          "showReuseMessage": false,
+          "clear": true
+        }
+      }
+    ]
+  },
+
+  "extensions": {
+    "recommendations": [
+      "wix.vscode-import-cost",
+      "rust-lang.rust-analyzer",
+      "tamasfe.even-better-toml",
+      "eamodio.gitlens",
+      "Cardinal90.multi-cursor-case-preserve",
+      "seunlanlege.action-buttons",
+      "humao.rest-client",
+      "bradlc.vscode-tailwindcss",
+      "esbenp.prettier-vscode",
+      "formulahendry.auto-rename-tag",
+      "naumovs.color-highlight",
+      "aeschli.vscode-css-formatter",
+      "usernamehw.errorlens",
+      "vscode-icons-team.vscode-icons"
+    ]
+  }
+}
