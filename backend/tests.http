@@ -1,0 +1,16 @@
+### VARIABLES
+@host = {{$dotenv HOST}}
+@port = {{$dotenv PORT}}
+@url = http://{{host}}:{{port}}/api
+
+### GET HEALTH CHECK
+GET {{url}}/health
+
+### POST ECHO
+POST {{url}}/echo
+content-type: application/json
+
+{
+    "hello": "world",
+    "echo": "test",
+}

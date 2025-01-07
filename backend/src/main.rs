@@ -1,7 +1,9 @@
 use actix_files;
 use actix_web::{get, post, App, HttpResponse, HttpServer, Responder};
 use dotenv::dotenv;
+use serde::Serialize;
 use std::env;
+use ts_rs::TS;
 
 #[actix_web::main]
 async fn main() -> std::io::Result<()> {
@@ -17,7 +19,7 @@ async fn main() -> std::io::Result<()> {
 
     HttpServer::new(|| {
         App::new()
-            .service(hello)
+            .service(health)
             .service(echo)
             .service(actix_files::Files::new("/", "./static").index_file("index.html"))
     })
@@ -27,11 +29,20 @@ async fn main() -> std::io::Result<()> {
 }
 
 #[get("/api/health")]
-async fn hello() -> impl Responder {
+async fn health() -> impl Responder {
     HttpResponse::Ok().json("Health check OK")
 }
 
 #[post("/api/echo")]
 async fn echo(req_body: String) -> impl Responder {
     HttpResponse::Ok().body(req_body)
+}
+
+#[derive(Serialize, TS)]
+#[serde(rename_all = "camelCase")]
+#[ts(export)]
+struct Todo {
+    id: i32,
+    title: String,
+    completed: bool,
 }
